@@ -1,22 +1,24 @@
 import 'package:flutter/material.dart';
-import 'package:tmms/Grade10.dart';
-import 'package:tmms/Grade11.dart';
-import 'package:tmms/Grade6.dart';
-import 'package:tmms/Grade7.dart';
-import 'package:tmms/Grade8.dart';
-import 'package:tmms/Grade9.dart';
-import 'package:tmms/PaymentReport.dart';
-import 'package:tmms/database_helper.dart';
-import 'package:sqflite_common_ffi/sqflite_ffi.dart';
-import 'package:sqflite/sqflite.dart';
+import 'package:untitled11/screens/Grade6.dart';
+import 'package:untitled11/screens/Grade7.dart';
+import 'package:untitled11/screens/Grade8.dart';
+import 'package:untitled11/screens/Grade9.dart';
+import 'package:untitled11/screens/Grade10.dart';
+import 'package:untitled11/screens/Grade11.dart';
+import 'package:untitled11/screens/report_screen.dart';
 
- void main()  {
+
+void main()  {
+
 
 
   runApp(MyApp());
 }
 
+
 class MyApp extends StatelessWidget {
+  const MyApp({super.key});
+
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -28,6 +30,7 @@ class MyApp extends StatelessWidget {
 }
 
 class HomeScreen extends StatelessWidget {
+  const HomeScreen({super.key});
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -51,9 +54,13 @@ class HomeScreen extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
             SizedBox(
-              width: 100,
-              height: 100,
-              child: Image.asset('/logo1.png'), // Ensure the correct path
+                width: 100,
+                height: 100,
+                child: Image.asset(
+                  'lib/assets/logo1.png',
+                  fit: BoxFit.cover,
+                )
+              // Ensure the correct path
             ),
             SizedBox(height: 20),
             Text('Select A Grade', style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
@@ -67,10 +74,10 @@ class HomeScreen extends StatelessWidget {
               onPressed: () {
                 Navigator.push(
                   context,
-                  MaterialPageRoute(builder: (context) => Paymentreport()),);
+                  MaterialPageRoute(builder: (context) => ReportScreen()),);
               },
               style: _buttonStyle(),
-              child: Text('Payment Report'),
+              child: Text('  Reports'),
             ),
           ],
         ),
@@ -135,8 +142,8 @@ class HomeScreen extends StatelessWidget {
 
   ButtonStyle _buttonStyle() {
     return ButtonStyle(
-      backgroundColor: MaterialStateProperty.all<Color>(Color(0XFF3E7B27)),
-      foregroundColor: MaterialStateProperty.all<Color>(Color(0xFFEFE3C2)),
+      backgroundColor: WidgetStateProperty.all<Color>(Color(0XFF3E7B27)),
+      foregroundColor: WidgetStateProperty.all<Color>(Color(0xFFEFE3C2)),
     );
   }
 }
