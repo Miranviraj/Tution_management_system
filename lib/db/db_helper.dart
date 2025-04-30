@@ -1,7 +1,6 @@
 import 'package:sqflite/sqflite.dart';
 import 'package:path/path.dart';
 import '../models/student.dart';
-import '../models/attendance.dart';
 import '../models/Classes.dart';
 import '../models/payment.dart';
 

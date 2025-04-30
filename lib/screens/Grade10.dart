@@ -6,6 +6,8 @@ import '../models/attendance.dart';
 import '../models/payment.dart';
 import 'student_details_screen.dart';
 import 'package:untitled11/main.dart';
+import 'package:telephony/telephony.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 
 
 void main() async {
@@ -496,7 +498,46 @@ class ClassesScreenState extends State< ClassesScreen> {
       hour: int.tryParse(classes.time.split(":")[0]) ?? 0,
       minute: int.tryParse(classes.time.split(":")[1]) ?? 0,
     );
+    Future<void> sendSmsToAllStudents(String date, String time) async {
+      final Telephony telephony = Telephony.instance;
 
+      bool? permissionsGranted = await telephony.requestPhoneAndSmsPermissions;
+      if (permissionsGranted == true) {
+        try {
+          final studentData = await DBHelper.instance.fetchStudents1();
+
+          // SAFELY map the phone numbers
+          final phoneNumbers = studentData
+              .map<String>((e) => (e['tell'] ?? '').toString())
+              .where((number) => number.isNotEmpty)
+              .toList();
+
+          String message = "Important Update: Your class is rescheduled to $date at $time.";
+
+          for (String number in phoneNumbers) {
+            await telephony.sendSms(
+              to: number,
+              message: message,
+            );
+          }
+          print("Messages sent successfully!");
+
+          // Show success toast after sending all messages
+          Fluttertoast.showToast(
+            msg: "SMS sent successfully to all students!",
+            toastLength: Toast.LENGTH_SHORT,
+            gravity: ToastGravity.CENTER,
+            backgroundColor: Colors.green,
+            textColor: Colors.white,
+            fontSize: 16.0,
+          );
+        } catch (e) {
+          print("Error while sending messages: $e");
+        }
+      } else {
+        print("SMS permission not granted!");
+      }
+    }
     return await showDialog<Classes>(
       context: context,
       builder: (context) {
@@ -549,14 +590,19 @@ class ClassesScreenState extends State< ClassesScreen> {
                   child: const Text('Cancel'),
                 ),
                 ElevatedButton(
-                  onPressed: () {
+                  onPressed: () async {
                     final updatedDate = selectedDate.toIso8601String().split('T').first;
                     final updatedTime = '${selectedTime.hour.toString().padLeft(2, '0')}:${selectedTime.minute.toString().padLeft(2, '0')}';
+
+                    // First, update the class and pop
                     Navigator.of(context).pop(Classes(
                       id: classes.id, // Keep the original ID
                       date: updatedDate,
                       time: updatedTime,
                     ));
+
+                    // Then, send SMS to all students
+                    await sendSmsToAllStudents(updatedDate, updatedTime);
                   },
                   child: const Text('Save'),
                 ),
@@ -567,6 +613,7 @@ class ClassesScreenState extends State< ClassesScreen> {
       },
     );
   }
+
 
 
   @override

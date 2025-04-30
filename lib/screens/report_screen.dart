@@ -41,44 +41,46 @@ class ReportScreen extends StatelessWidget {
           final data = snapshot.data!;
           return Padding(
             padding: const EdgeInsets.all(16.0),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                // 🆕 Title between AppBar and content
-                Center(
-                  child: Text(
-                    "Summary Report",
-                    style: TextStyle(
-                      fontSize: 24,
-                      fontWeight: FontWeight.bold,
-                      color: Colors.indigo,
+            child: SingleChildScrollView(    // 🛠️ Add this
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Center(
+                    child: Text(
+                      "Summary Report",
+                      style: TextStyle(
+                        fontSize: 24,
+                        fontWeight: FontWeight.bold,
+                        color: Colors.indigo,
+                      ),
                     ),
                   ),
-                ),
-                const SizedBox(height: 24), // Space after title
-                ReportCard(
-                  title: "Total Students",
-                  value: "${data['students']}",
-                  icon: Icons.person,
-                  color: Colors.blue,
-                ),
-                const SizedBox(height: 16),
-                ReportCard(
-                  title: "Total Payments",
-                  value: "Rs. ${data['payments']}",
-                  icon: Icons.payment,
-                  color: Colors.green,
-                ),
-                const SizedBox(height: 16),
-                ReportCard(
-                  title: "Total Attendances",
-                  value: "${data['attendances']}",
-                  icon: Icons.check_circle,
-                  color: Colors.orange,
-                ),
-              ],
+                  const SizedBox(height: 24),
+                  ReportCard(
+                    title: "Total Students",
+                    value: "${data['students']}",
+                    icon: Icons.person,
+                    color: Colors.blue,
+                  ),
+                  const SizedBox(height: 16),
+                  ReportCard(
+                    title: "Total Payments",
+                    value: "Rs. ${data['payments']}",
+                    icon: Icons.payment,
+                    color: Colors.green,
+                  ),
+                  const SizedBox(height: 16),
+                  ReportCard(
+                    title: "Total Attendances",
+                    value: "${data['attendances']}",
+                    icon: Icons.check_circle,
+                    color: Colors.orange,
+                  ),
+                ],
+              ),
             ),
           );
+
         },
       ),
     );

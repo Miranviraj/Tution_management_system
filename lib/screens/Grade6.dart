@@ -491,7 +491,7 @@ class ClassesScreenState extends State< ClassesScreen> {
   }
 
   Future<void> _deleteclass(int id) async {
-    await DBHelper.instance.deleteclass9(id);
+    await DBHelper.instance.deleteclass(id);
     _refreshclasse();
   }
 
@@ -529,7 +529,7 @@ class ClassesScreenState extends State< ClassesScreen> {
           Fluttertoast.showToast(
             msg: "SMS sent successfully to all students!",
             toastLength: Toast.LENGTH_SHORT,
-            gravity: ToastGravity.BOTTOM,
+            gravity: ToastGravity.CENTER,
             backgroundColor: Colors.green,
             textColor: Colors.white,
             fontSize: 16.0,
